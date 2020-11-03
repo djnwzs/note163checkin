@@ -28,8 +28,6 @@ jobs:
       run: |
         user='${{ secrets.USER }}'
         pwd='${{ secrets.PWD }}'
-        secret = '${{ secrets.SECRET }}'
-        webhook="${{ secrets.WEBHOOK }}"
         
         user_list=()
         pwd_list=()
