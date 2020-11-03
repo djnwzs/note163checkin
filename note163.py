@@ -2,11 +2,21 @@ import requests
 import sys
 import json
 import time
+import datetime
+import hmac
+import hashlib
+import base64
+from urllib.parse import quote_plus
+
+import requests
 
 # note.youdao.com 有道云笔记签到
 
-user=""
-passwd=""
+user = ""
+passwd = ""
+
+secret = ""
+webhook = ""
 
 if(user=="",passwd==""):
     user = input("账号:")
@@ -29,7 +39,9 @@ def noteyoudao(YNOTE_SESS: str, user: str, passwd: str):
         t = time.strftime('%Y-%m-%d %H:%M:%S',
                           time.localtime(info['time'] / 1000))
         print(user+'签到成功，本次获取'+str(space) +
-              'M, 总共获取'+str(total)+'M, 签到时间'+str(t))
+              'M, 总共获取' + str(total) + 'M, 签到时间' + str(t))
+        dingtalk(user+'签到成功，本次获取'+str(space) +
+              'M, 总共获取' + str(total) + 'M, 签到时间' + str(t))
     # cookie 登录失效，改用用户名密码登录
     else:
         login_url = 'https://note.youdao.com/login/acc/urs/verify/check?app=web&product=YNOTE&tp=ursto' \
@@ -55,6 +67,35 @@ def noteyoudao(YNOTE_SESS: str, user: str, passwd: str):
             noteyoudao(YNOTE_SESS, user, passwd)
             return YNOTE_SESS
 
-if __name__ == "__main__":
-    noteyoudao("",user,passwd)
+def dingtalk(notification: str):
+    timestamp = round(time.time() * 1000)
+    secret_enc = bytes(secret, encoding='utf-8')
+    string_to_sign = '{}\n{}'.format(timestamp, secret)
+    string_to_sign_enc = bytes(string_to_sign, encoding='utf-8')
+    hmac_code = hmac.new(secret_enc, string_to_sign_enc, digestmod=hashlib.sha256).digest()
+    sign = quote_plus(base64.b64encode(hmac_code))
+    #test
+    #url="https://oapi.dingtalk.com/robot/send?access_token=49d5943dffbe28b6c4a39f672f1b6e87980f15ae581c38490645086c51c5a231&timestamp="+str(timestamp)+"&sign="+sign
+    #hk
+    url=webhook+"&timestamp="+str(timestamp)+"&sign="+sign
+    From_data = {
+        "msgtype": "markdown",
+        "markdown": {
+            "title":"通知",
+            "text": "#### 通知\n" +
+            notification
+        },
+        "at": {
+            "atMobiles": [
+                ""
+            ],
+            "isAtAll": "false"
+        }
+    }
+    response = requests.post(url, json=From_data)
+    # 将Json格式字符串转字典
+    content = json.loads(response.text)
+    print(content)
 
+if __name__ == "__main__":
+    noteyoudao("", user, passwd)
