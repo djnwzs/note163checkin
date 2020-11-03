@@ -25,6 +25,9 @@ jobs:
         pip3 install requests
         
     - name: Checkin
+      env:
+        SECRET: ${{ secrets.SECRET }}
+        WEBHOOK: ${{ secrets.WEBHOOK }}
       run: |
         user='${{ secrets.USER }}'
         pwd='${{ secrets.PWD }}'
