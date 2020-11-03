@@ -15,8 +15,8 @@ import requests
 user = ""
 passwd = ""
 
-secret = ""
-webhook = ""
+secret = os.environ["SECRET"]
+webhook = os.environ["WEBHOOK"]
 
 if(user=="",passwd==""):
     user = input("账号:")
