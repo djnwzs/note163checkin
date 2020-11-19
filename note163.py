@@ -76,7 +76,7 @@ def dingtalk(notification: str):
     hmac_code = hmac.new(secret_enc, string_to_sign_enc, digestmod=hashlib.sha256).digest()
     sign = quote_plus(base64.b64encode(hmac_code))
     #test
-    #url="https://oapi.dingtalk.com/robot/send?access_token=49d5943dffbe28b6c4a39f672f1b6e87980f15ae581c38490645086c51c5a231&timestamp="+str(timestamp)+"&sign="+sign
+    #url="webhook"+str(timestamp)+"&sign="+sign
     #hk
     url=webhook+"&timestamp="+str(timestamp)+"&sign="+sign
     From_data = {
