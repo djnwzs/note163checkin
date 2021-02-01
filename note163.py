@@ -8,8 +8,11 @@ import hmac
 import hashlib
 import base64
 from urllib.parse import quote_plus
-
 import requests
+import urllib3
+
+urllib3.disable_warnings()
+
 
 # note.youdao.com 有道云笔记签到
 
