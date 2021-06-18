@@ -12,8 +12,8 @@ python源码copy于(https://github.com/lepecoder/checkin)
 添加名为**USER**、**PWD**的变量  
 值分别为**账号**、**密码**  
 ## 密码需用MD5加密工具加密，加密格式为32位[小]:(https://tool.chinaz.com/tools/md5.aspx)
-支持多账号，账号之间与密码之间用**半角逗号**分隔，账号于密码的个数要对应  
-示例：**USER:123456,24678**，**PWD:cxkjntm,jntmcxk**
+支持多账号，账号之间与密码之间用**空格**分隔，账号于密码的个数要对应  
+示例：**USER:123456 24678**，**PWD:cxkjntm jntmcxk**
 ![](http://tu.yaohuo.me/imgs/2020/06/748bf9c0ca6143cd.png)
 
 ## 三、启用Action
